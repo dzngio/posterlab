@@ -1204,7 +1204,6 @@ function go(i) {
     s.classList.add('active');
     s.offsetWidth;
     setTimeout(() => { if (slides[cur] === s) s.classList.add('visible'); }, 30);
-    try { history.replaceState(null, '', '#' + (i + 1)); } catch (e) {}
     $('#count').textContent = `${String(i + 1).padStart(2, '0')} / ${N}`;
     updateMini();
 }
@@ -1826,8 +1825,8 @@ function loop(now) {
     }
     if (now - uiLast > 120) { uiLast = now; for (const el of s._ui) { try { UI[el.dataset.ui](el, t); } catch (e) { console.error(e); } } }
 }
-const start = parseInt((location.hash || '').slice(1), 10);
-go(Number.isFinite(start) ? start - 1 : 0);
+try { if (location.hash) history.replaceState(null, '', location.pathname + location.search); } catch (e) {}
+go(0);
 requestAnimationFrame(loop);
 </script>
 </body></html>
